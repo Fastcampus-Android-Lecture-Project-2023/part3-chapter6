@@ -3,6 +3,7 @@ package fastcampus.part3.chapter6.remote
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import fastcampus.part3.chapter6.model.ListItem
+import fastcampus.part3.chapter6.remote.mock.SampleMock
 
 class MainPagingSource(private val mainService: MainService)
     : PagingSource<Int, ListItem>() {
@@ -11,11 +12,11 @@ class MainPagingSource(private val mainService: MainService)
         return try {
             val page = params.key ?: 1
             val size = params.loadSize
-            val result = mainService.getList(page, size).data
+            val result = SampleMock.mockChapter6List()//mainService.getList(page, size).data
             LoadResult.Page(
-                data = result.list,
+                data = result,
                 prevKey = null,
-                nextKey = result.page.nextPage
+                nextKey = null//result.page.nextPage
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
